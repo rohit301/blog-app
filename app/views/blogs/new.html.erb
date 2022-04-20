@@ -1,5 +1,50 @@
-<h1>New Blog</h1>
 
+
+<% if current_user %>
+ <p id="notice"><%= notice %></p>
+  Logged in as: <%= current_user.email %><br>
+  <h1>Blogs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+  
+    <% current_user.blogs.each do |blog| %>
+      <tr>
+        <td><%= blog.title %></td>
+        <td><%= blog.content %></td>
+  
+        <td><%= link_to 'Show', blog %></td>
+        <td><%= link_to 'Edit', edit_blog_path(blog) %></td>
+        <td><%= link_to 'Destroy', blog, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<h1>New Blog</h1>
 <%= render 'form', blog: @blog %>
 
-<%= link_to 'Back', blogs_path %>
+ <%= button_to "Sign Out", logout_path,  method: :delete %>
+  <% else %>
+  <div> You are not signed in, please sign in to continue
+  <%= link_to "Sign in", sign_in_path %>
+</div>
+  <% end %>
+
+
+
+
+
+
+
+
+

@@ -1,9 +1,17 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: %i[ show edit update destroy ]
-
+  before_action :authorized, only: [:new, :edit, :update, :create, :show, :destroy]
   # GET /blogs or /blogs.json
   def index
-    @blogs = Blog.all
+      if params[:user_id]
+        user=User.find(params[:user_id])
+        @blogs=user.present? ? user.blogs : Blog.all
+      elsif current_user
+      @blogs=current_user.blogs
+      else
+     @blogs = Blog.all
+    end
+      
   end
 
   # GET /blogs/1 or /blogs/1.json
@@ -12,7 +20,9 @@ class BlogsController < ApplicationController
 
   # GET /blogs/new
   def new
-    @blog = Blog.new
+
+    @blog = current_user.blogs.new
+    
   end
 
   # GET /blogs/1/edit
@@ -21,7 +31,8 @@ class BlogsController < ApplicationController
 
   # POST /blogs or /blogs.json
   def create
-    @blog = Blog.new(blog_params)
+    @blog = current_user.blogs.build(blog_params)
+   
 
     respond_to do |format|
       if @blog.save
@@ -32,6 +43,7 @@ class BlogsController < ApplicationController
         format.json { render json: @blog.errors, status: :unprocessable_entity }
       end
     end
+  
   end
 
   # PATCH/PUT /blogs/1 or /blogs/1.json
@@ -52,7 +64,7 @@ class BlogsController < ApplicationController
     @blog.destroy
 
     respond_to do |format|
-      format.html { redirect_to blogs_url, notice: "Blog was successfully destroyed." }
+      format.html { redirect_to "/blogs/new", notice: "Blog was successfully destroyed." }
       format.json { head :no_content }
     end
   end
@@ -65,6 +77,6 @@ class BlogsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def blog_params
-      params.require(:blog).permit(:title, :content)
+      params.require(:blog).permit(:title, :content, :user_id)
     end
 end
