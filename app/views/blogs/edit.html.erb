@@ -1,6 +1,8 @@
+<%= render 'link' %>
 <h1>Editing Blog</h1>
 
-<%= render 'form', blog: @blog %>
+<%= render 'form', blog: @blog, :class => "btn btn-primary btn-sm" %>, 
 
-<%= link_to 'Show', @blog %> |
+<%= link_to 'Show', @blog , :class => "btn btn-primary btn-sm"%> |
+<td><%= link_to 'Back', new_blog_path(@blog), :class => "btn btn-primary btn-sm" %></td>
 

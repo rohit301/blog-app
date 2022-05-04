@@ -1,17 +1,22 @@
 class BlogsController < ApplicationController
   before_action :set_blog, only: %i[ show edit update destroy ]
-  before_action :authorized, only: [:new, :edit, :update, :create, :show, :destroy]
+  #before_action :authorized, only: [:new, :edit, :update, :create, :show, :destroy]
+  skip_before_action :authorized, only:[:index]
   # GET /blogs or /blogs.json
   def index
       if params[:user_id]
-        user=User.find(params[:user_id])
-        @blogs=user.present? ? user.blogs : Blog.all
+        begin
+        @user=User.find(params[:user_id])
+      rescue ActiveRecord::RecordNotFound => e
+        @user=nil
+   
+        end
+        @blogs=@user.present? ? @user.blogs : Blog.all
       elsif current_user
       @blogs=current_user.blogs
       else
      @blogs = Blog.all
-    end
-      
+      end
   end
 
   # GET /blogs/1 or /blogs/1.json
@@ -20,7 +25,6 @@ class BlogsController < ApplicationController
 
   # GET /blogs/new
   def new
-
     @blog = current_user.blogs.new
     
   end
@@ -32,8 +36,6 @@ class BlogsController < ApplicationController
   # POST /blogs or /blogs.json
   def create
     @blog = current_user.blogs.build(blog_params)
-   
-
     respond_to do |format|
       if @blog.save
         format.html { redirect_to blog_url(@blog), notice: "Blog was successfully created." }
@@ -73,6 +75,8 @@ class BlogsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_blog
       @blog = Blog.find(params[:id])
+    rescue ActiveRecord::RecordNotFound => e
+      format.html { render :new, notice: "The Blog you are trying to find doesn't exist yet." }
     end
 
     # Only allow a list of trusted parameters through.

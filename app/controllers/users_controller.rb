@@ -9,8 +9,10 @@ class UsersController < ApplicationController
   end
   def create
     @user = User.new(email: params[:user][:email], password: params[:user][:password], password_confirmation: params[:user][:password_confirmation])
+   
     respond_to do |format|
       if @user.save
+        session[:user_id]=@user.id
         format.html { redirect_to '/blogs/new', notice: "User was successfully created." }
       else
         format.html { render :new, status: :unprocessable_entity }

@@ -6,16 +6,16 @@
 
  <div class="field">
     <%= label_tag :user_id %>
-    <%= select_tag :user_id, options_for_select(User.all.map{|s|[s.email, s.id]},params[:user_id])%>
-    <%= submit_tag :filter %>
+    <%= select_tag :user_id, options_for_select(User.all.map{|s|[s.email, s.id]},params[:user_id]), {onchange: 'this.form.submit();'}%>
     </div>
-     <% end %> 
+      <% end %> 
+  
 
 <table>
 <thead>
- <% if @blogs.empty? 
+ <% if @blogs.empty?  
  flash[:notice]="No blogs have been created yet by the user." %>
- <p id="notice"><%= notice %></p>
+ <p id="notice" class= "flash"><%= notice %></p>
   <% else %> 
      <tr>
       <th> Title</th>
@@ -39,6 +39,4 @@
 <br>
 
 
-
-<div>New User? click on   <%= link_to "Sign up", sign_up_path %> </div>
-<div> Already a user? click on <%= link_to "Sign in", sign_in_path %> </div> 
+<%= render 'link' %>

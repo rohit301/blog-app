@@ -1,8 +1,8 @@
 
+<%= render 'link' %>
 
-<% if current_user %>
  <p id="notice"><%= notice %></p>
-  Logged in as: <%= current_user.email %><br>
+
   <h1>Blogs</h1>
 
 <table>
@@ -31,14 +31,10 @@
 
 <br>
 <h1>New Blog</h1>
-<%= render 'form', blog: @blog %>
+<%= render 'form', blog: @blog , :class => "btn btn-primary btn-sm"%>
 
- <%= button_to "Sign Out", logout_path,  method: :delete %>
-  <% else %>
-  <div> You are not signed in, please sign in to continue
-  <%= link_to "Sign in", sign_in_path %>
-</div>
-  <% end %>
+
+ 
 
 
 

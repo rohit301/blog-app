@@ -1,5 +1,7 @@
+<%= render 'link' %>
 <p id="notice"><%= notice %></p>
-
+<% if @blog.nil? %>
+<%else%> 
 <p>
   <strong>Title:</strong>
   <%= @blog.title %>
@@ -10,7 +12,7 @@
   <%= @blog.content %>
 </p>
 
-<%= link_to 'Edit', edit_blog_path(@blog) %>
-
-<td><%= link_to 'new', new_blog_path(@blog) %></td>
+<%= link_to 'Edit', edit_blog_path(@blog) %> |
+<%end%>
+<td><%= link_to 'Back', new_blog_path(@blog) %></td>
 

@@ -1,0 +1,9 @@
+<% if current_user %>
+  Logged in as: <%= current_user.email %><br>
+   <%= button_to "Sign Out", logout_path,  method: :delete %>
+    <% else  %>
+<div>New User? click on   <%= link_to "Sign up", sign_up_path %> </div>
+<div> Already a user? click on <%= link_to "Sign in", sign_in_path %> </div> 
+
+
+<% end %>

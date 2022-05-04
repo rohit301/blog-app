@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
 
   resources :blogs
-  #get 'login', to: 'blogs#index' 
+  #get 'login', to: 'blogs#new' 
   #post 'login', to: 'blogs#new'
   get 'sign_in', to: 'sessions#new'
   post 'sign_in', to: 'sessions#create'
