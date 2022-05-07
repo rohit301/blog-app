@@ -13,9 +13,10 @@
 
 <table>
 <thead>
- <% if @blogs.empty?  
- flash[:notice]="No blogs have been created yet by the user." %>
- <p id="notice" class= "flash"><%= notice %></p>
+ <% if @blogs.empty? %>
+  <div class="alert alert-success" role="alert">
+    No blogs have been created yet by the user
+  </div>
   <% else %> 
      <tr>
       <th> Title</th>
